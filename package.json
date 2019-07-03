@@ -10,7 +10,9 @@
     "child_process": "^1.0.2",
     "react": "16.8.3",
     "react-native": "0.59.4",
-    "react-native-voice": "^0.2.6"
+    "react-native-tts": "^3.0.0",
+    "react-native-voice": "^0.2.6",
+    "react-timer-mixin": "^0.13.4"
   },
   "devDependencies": {
     "@babel/core": "^7.4.3",

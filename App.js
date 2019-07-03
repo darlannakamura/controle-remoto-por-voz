@@ -11,7 +11,7 @@ import {Platform, StyleSheet, Text, View, AppState} from 'react-native';
 import Voice from 'react-native-voice';
 import { Button } from 'react-native';
 import { PermissionsAndroid } from 'react-native';
-
+import Tts from 'react-native-tts';
 
 // const instructions = Platform.select({
 //   ios: 'Press Cmd+R to reload,\n' + 'Cmd+D or shake for dev menu',
@@ -49,6 +49,7 @@ export default class App extends Component<Props> {
 
   componentWillUnmount() {
     AppState.removeEventListener('change', this._handleAppStateChange);
+    Tts.setDefaultLanguage('pt-BR');
   }
 
   _handleAppStateChange = async (nextAppState) => {
@@ -88,7 +89,6 @@ export default class App extends Component<Props> {
   async startSpeech() {
     try{
       await Voice.start('pt-BR');
-      
     } catch(e) {
       console.log(e);
     }
@@ -101,6 +101,7 @@ export default class App extends Component<Props> {
       console.log(e);
     }
   }
+
 
   onSpeechEndHandler() {
     console.log('parou');
@@ -155,7 +156,10 @@ export default class App extends Component<Props> {
   }
 
   _returnMessage(message) {
-    alert(message);
+    // alert(message);
+    
+    Tts.speak(message,
+    { androidParams: { KEY_PARAM_PAN: -1, KEY_PARAM_VOLUME: 1, KEY_PARAM_STREAM: 'STREAM_MUSIC' } });
   }
 
   _getCommandList(){
@@ -248,6 +252,11 @@ export default class App extends Component<Props> {
         speech: 'globo', 
         action: 'globo'
       },
+      {
+        speech: 'parar',
+        action: '',
+        commandClass: 'stopApplication'
+      }
     ];
   }
 
@@ -282,7 +291,15 @@ export default class App extends Component<Props> {
         value: 60
       },
       {
+        text: "uma hora",
+        value: 60
+      },
+      {
         text: "2 horas",
+        value: 120
+      },
+      {
+        text: "duas horas",
         value: 120
       }
     ];
@@ -312,6 +329,8 @@ export default class App extends Component<Props> {
   }
 
   async onSpeechResultsHandler(e) {
+    let stopListening = false;
+
     console.log('resultados:');
     console.log(e);
     
@@ -390,6 +409,10 @@ export default class App extends Component<Props> {
           console.log("Valor extraído da sentença:");
           console.log(time);
           this.sendRequest(`${command.action}-${time}`);
+        } else if(command.commandClass == 'stopApplication'){
+          this._returnMessage('Comando recebido. Vou parar de escutar agora mesmo.');
+          await this.endSpeech();
+          stopListening = true;
         }
       } else {
         this.sendRequest(command.action);
@@ -405,9 +428,12 @@ export default class App extends Component<Props> {
       // case 'globo': this.sendRequest('globo'); break;
     // }
 
-    await this.endSpeech();
+    if(!stopListening){
+      await this.endSpeech();
+  
+      setTimeout(this.startSpeech(), 500);
+    }
 
-    setTimeout(this.startSpeech(), 500);
   }
 
   onSpeechStartHandler() {
