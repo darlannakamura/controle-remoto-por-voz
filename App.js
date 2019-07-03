@@ -35,8 +35,7 @@ export default class App extends Component<Props> {
     this.state = { 
       text : '', 
       textButton: 'FALAR',
-      isListening: false,
-      // api_url: 'http://192.168.43.221:8081/commands/' 
+      isListening: false
     }; 
   }
 
@@ -54,11 +53,6 @@ export default class App extends Component<Props> {
 
   _handleAppStateChange = async (nextAppState) => {
     await this.startSpeech();
-    
-    // if (this.state.appState.match(/inactive|background/) && nextAppState === 'active') {
-    //   console.log('App has come to the foreground!')
-    // }
-    // this.setState({appState: nextAppState});
   }
 
   async requestVoiceRecord() {
@@ -136,7 +130,6 @@ export default class App extends Component<Props> {
         if(Array.isArray(command.speech)) {
             
             command.speech.forEach( s => {
-              // if (text.indexOf(s) != -1 || text == s){
               if (text.includes(s)){
                 returnCommand = command;
                 console.log('entrou aqui');
@@ -156,8 +149,6 @@ export default class App extends Component<Props> {
   }
 
   _returnMessage(message) {
-    // alert(message);
-    
     Tts.speak(message,
     { androidParams: { KEY_PARAM_PAN: -1, KEY_PARAM_VOLUME: 1, KEY_PARAM_STREAM: 'STREAM_MUSIC' } });
   }
@@ -280,7 +271,6 @@ export default class App extends Component<Props> {
   }
 
   _extractTimeFromSentence(text){
-    //TODO: tratar a questão de meia hora = 30 minutos, 1 hora.
     const timing = [
       {
         text: "meia hora",
@@ -330,9 +320,6 @@ export default class App extends Component<Props> {
 
   async onSpeechResultsHandler(e) {
     let stopListening = false;
-
-    console.log('resultados:');
-    console.log(e);
     
     let text = e.value[0];
 
@@ -354,38 +341,19 @@ export default class App extends Component<Props> {
 
     let command = this._returnCommandRecognizedInTheText(text.toLowerCase(), commands);
 
-    console.log('comando reconhecido:');
-    console.log(command.action);
-
-    //não reconheceu nenhum comando.
     if (command == false){
       this._returnMessage("Não reconheci nenhum comando.");
     } else {
       if('commandClass' in command){
         if(command.commandClass == 'volume'){
-          // precisamos pegar os parâmetros da quantidade do volume
-          console.log("Entrou aqui no volume");
-
-          console.log(command);
 
           let volume = this._extractDigitsFromSentence(text);
-
-          console.log('Valor extraído da sentença:');
-          console.log(volume);
-
-          console.log(command);
           
           volume = this._boundOfVolume(volume); // para ficar entre o intervalo de 0 a 50.
 
           this.sendRequest(`${command.action}-${volume}`);
         } else if (command.commandClass == 'channel'){
           let channel = this._extractDigitsAndDotsFromSentence(text);
-
-          console.log("Valor extraído da sentença:");
-          console.log(channel);
-          // channel = channel.replace('.', 'ponto');
-
-          // this.sendRequest(`${command.action}-${channel}`);
           
           for(let i = 0 ; i < channel.length; i++){
             let send = channel[i];
@@ -419,14 +387,6 @@ export default class App extends Component<Props> {
       }
     }
 
-
-    // switch(text.toLowerCase()) {
-      // case 'ligar': this.sendRequest('ligar'); break;
-      // case 'desligar': this.sendRequest('desligar'); break;
-      // case 'aumentar volume': this.sendRequest('aumentarvolume'); break;
-      // case 'band': this.sendRequest('band'); break;
-      // case 'globo': this.sendRequest('globo'); break;
-    // }
 
     if(!stopListening){
       await this.endSpeech();
