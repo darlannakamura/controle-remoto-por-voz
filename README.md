@@ -15,7 +15,7 @@ Desenvolvemos uma aplicação específica para Android (testado com o Android na
 É importante realizar a instalação sem o Expo, pois o aplicativo utiliza recursos nativos do android, sendo necessário o acesso à pasta `android` (em que não é possível com o expo), sendo o tutorial para a instalação através do link: https://facebook.github.io/react-native/docs/getting-started.html.
 
 ## Setup
-- Clone o projeto executando o comando: `git clone https://github.com/darlannakamura/speech.git`
+- Clone o projeto executando o comando: `git clone https://github.com/darlannakamura/controle-remoto-por-voz.git`
 - Navegue pelo terminal até a pasta clonada.
 - Execute o comando `npm install` para instalar as dependências listadas no arquivo `package.json`.
 - No arquivo `App.js`, na linha 109, injetamos diretamente o IP e a porta do servidor Node MCU na rede. Uma recomendação é remover o IP e a porta e adicionar para o arquivo de configuração, para o código ficar mais bonito.
