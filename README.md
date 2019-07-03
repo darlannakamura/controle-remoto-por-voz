@@ -1,7 +1,7 @@
 # Controle Remoto Por Voz
 Trabalho da disciplina de FPGA do Curso de Ciência da Computação da FCT-Unesp, campus de Presidente Prudente. 
 
-Este projeto é um protótipo do funcionamento de controle remoto por voz, onde utilizamos o aplicativo desenvolvido em React Native, que está dentro da pasta `app` para receber o comando do usuário por voz e enviar uma requisição HTTP para o servidor do Node MCU, que o código está disponível na pasta `nodemcu`. O servidor em Node MCU recebe o comando e o executa.
+Este projeto é um protótipo do funcionamento de controle remoto por voz, onde utilizamos o aplicativo desenvolvido em React Native, que está dentro da pasta `app` para receber o comando do usuário por voz e enviar uma requisição HTTP para o servidor do Node MCU, que o código está disponível na pasta `nodemcu`. O servidor em Node MCU recebe o comando e o executa, enviando o sinal infra-vermelho para a televisão.
 
 
 # Introdução
