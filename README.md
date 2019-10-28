@@ -28,6 +28,7 @@ Após executá-lo, verá que qualquer atualização no código-fonte da aplicaç
 ## Dicas
 - O celular e o computador precisam estar na mesma rede (utilizamos uma roteador móvel do celular, pois é difícil conectar o Node MCU na rede da Unesp).
 - Utilize o `remote debugger`: agite o celular, abra o menu, e escolha a opção “Remote Debugger”.
+- Nós recomendamos a atualização das bibliotecas utilizadas no projeto.
 
 # Autores
 - [Darlan Nakamura](https://github.com/darlannakamura)
